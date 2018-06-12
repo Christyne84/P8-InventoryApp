@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- Name for the application [CHAR LIMIT=12] -->
+    <string name="app_name">Inventory App</string>
+
+    <!-- Label for overflow menu option that inserts fake book data into the app [CHAR LIMIT=20] -->
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+
+    <!-- Label for overflow menu option that deletes all book data in the app [CHAR LIMIT=20] -->
+    <string name="action_delete_all_entries">Delete All Books</string>
+
+    <!-- Title for the activity to add a new book [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_new_book">Add a Book</string>
+
+    <!-- Label for editor menu option to save book and leave editor [CHAR LIMIT=20] -->
+    <string name="action_save">Save</string>
+
+    <!-- Label for editor overflow menu option that deletes the current book [CHAR LIMIT=20] -->
+    <string name="action_delete">Delete</string>
+
+    <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_book">Book</string>
+
+    <!-- Label for Supplier information in the editor [CHAR LIMIT=30] -->
+    <string name="category_supplier">Supplier</string>
+
+    <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_book_name">Name</string>
+
+    <!-- Text hint for book price field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_book_price">Price</string>
+
+    <!-- Text hint for book quantity in the editor [CHAR LIMIT=30] -->
+    <string name="hint_book_quantity">Quantity</string>
+
+    <!-- Text hint for supplier's name field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_supplier_name">Supplier name</string>
+
+    <!-- Text hint for supplier's phone number field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_supplier_phone_number">Phone number</string>
+    <string name="inventory_contains">The books table contains</string>
+    <string name="inventory_product">books.</string>
+    <string name="dummy_product_name">BookX</string>
+    <string name="dummy_price_value">1</string>
+    <string name="dummy_quantity_value">1</string>
+    <string name="dummy_supplier_name">SupplierX</string>
+    <string name="dummy_supplier_phone_number">+491005222</string>
+    <string name="saving_error">Error with saving the book</string>
+    <string name="saved_confirmation">Book saved with row id:</string>
+</resources>
