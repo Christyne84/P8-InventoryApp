@@ -51,7 +51,7 @@
     <string name="inventory_contains">The books table contains</string>
     <string name="inventory_product">books.</string>
     <string name="dummy_product_name">BookX</string>
-    <string name="dummy_price_value">1</string>
+    <string name="dummy_price_value">10</string>
     <string name="dummy_quantity_value">1</string>
     <string name="dummy_supplier_name">SupplierX</string>
     <string name="dummy_supplier_phone_number">00491005222</string>

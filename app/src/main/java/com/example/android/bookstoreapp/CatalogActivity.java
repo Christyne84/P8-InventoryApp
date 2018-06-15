@@ -18,12 +18,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.bookstoreapp.data.BookContract;
-
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * Displays list of books that were entered and stored in the app.
@@ -39,18 +35,10 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     /** The layout that holds the table header */
     LinearLayout linear;
 
-   @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
-
-        Intent intent = getIntent();
-        /* Content URI for the existing book (null, if it's a new book) */
-        Uri mCurrentBookUri = intent.getData();
-        linear = (LinearLayout) findViewById(R.id.table_columns_label);
-        if (mCurrentBookUri == null){
-            linear.setVisibility(View.GONE);
-        }
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -104,8 +92,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      * Helper method to insert hardcoded book data into the database. For debugging purposes only.
      */
     private void insertBook() {
-        //When we insert a book, show the table header
-        linear.setVisibility(View.VISIBLE);
 
         // Create a ContentValues object where column names are the keys,
         // and BookX's attributes are the values.
@@ -130,6 +116,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         int rowsDeleted = getContentResolver().delete(BookContract.BookEntry.CONTENT_URI, null, null);
 
         //When all the books are deleted, hide the table header
+        linear = (LinearLayout) findViewById(R.id.table_columns_label);
         linear.setVisibility(View.GONE);
 
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from books database");
@@ -166,7 +153,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         String[] projection = {
                 BookContract.BookEntry._ID,
                 BookContract.BookEntry.COLUMN_PRODUCT_NAME,
-                BookContract.BookEntry.COLUMN_SUPPLIER_NAME,
+                BookContract.BookEntry.COLUMN_PRICE,
+                BookContract.BookEntry.COLUMN_QUANTITY
         };
 
         //This cursor will execute the ContentProvider's query method on a background thread

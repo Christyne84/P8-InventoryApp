@@ -11,6 +11,7 @@
         android:id="@+id/table_columns_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/activity_margin"
         android:orientation="horizontal">
 
         <TextView
@@ -18,18 +19,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:fontFamily="sans-serif-medium"
-            android:paddingTop="16dp"
-            android:paddingLeft="@dimen/activity_margin"
             android:textAppearance="?android:textAppearanceMedium"
-            android:text="@string/table_header_product_name"
-            android:paddingStart="@dimen/activity_margin" />
+            android:text="@string/table_header_product_name" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:fontFamily="sans-serif-medium"
-            android:paddingTop="16dp"
             android:textAppearance="?android:textAppearanceMedium"
             android:text="@string/table_header_price"/>
 
@@ -37,8 +35,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:fontFamily="sans-serif-medium"
-            android:paddingTop="16dp"
             android:textAppearance="?android:textAppearanceMedium"
             android:text="@string/table_header_quantity"/>
     </LinearLayout>
