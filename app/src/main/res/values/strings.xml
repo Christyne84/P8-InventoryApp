@@ -2,7 +2,7 @@
 
 <resources>
     <!-- Name for the application [CHAR LIMIT=12] -->
-    <string name="app_name">Inventory App</string>
+    <string name="app_name">Books Inventory</string>
 
     <!-- Label for overflow menu option that inserts fake book data into the app [CHAR LIMIT=20] -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
@@ -12,6 +12,15 @@
 
     <!-- Title for the activity to add a new book [CHAR LIMIT=20] -->
     <string name="editor_activity_title_new_book">Add a Book</string>
+
+    <!-- Title for the activity to edit a book [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_edit_book">Edit Book</string>
+
+    <!-- Toast message in editor when current book was successfully updated [CHAR LIMIT=NONE] -->
+    <string name="editor_update_book_successful">Book updated</string>
+
+    <!-- Toast message in editor when current pet has failed to be updated [CHAR LIMIT=NONE] -->
+    <string name="editor_update_book_failed">Error with updating the book</string>
 
     <!-- Label for editor menu option to save book and leave editor [CHAR LIMIT=20] -->
     <string name="action_save">Save</string>
@@ -45,7 +54,41 @@
     <string name="dummy_price_value">1</string>
     <string name="dummy_quantity_value">1</string>
     <string name="dummy_supplier_name">SupplierX</string>
-    <string name="dummy_supplier_phone_number">+491005222</string>
-    <string name="saving_error">Error with saving the book</string>
-    <string name="saved_confirmation">Book saved with row id:</string>
+    <string name="dummy_supplier_phone_number">00491005222</string>
+    <string name="editor_insert_book_failed">Error with saving the book</string>
+    <string name="editor_insert_book_successful">Book saved</string>
+
+    <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
+    <string name="empty_view_title_text">There are no articles in the inventory…</string>
+
+    <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
+    <string name="empty_view_subtitle_text">Get started by adding a book</string>
+
+    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+
+    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current book [CHAR LIMIT=20] -->
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Toast message in editor when current book was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_book_successful">Book deleted</string>
+
+    <!-- Toast message in editor when current book has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_book_failed">Error with deleting the book</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current book [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this book?</string>
+
+    <!-- Dialog button text for the option to confirm deleting the current book [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current book [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
+    <string name="table_header_product_name">Product Name</string>
+    <string name="table_header_price">Price</string>
+    <string name="table_header_quantity">Quantity</string>
+    <string name="empty_view_image_content_description">Empty view image</string>
 </resources>
