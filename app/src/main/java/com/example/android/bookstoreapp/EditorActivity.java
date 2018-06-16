@@ -25,30 +25,44 @@ import com.example.android.bookstoreapp.data.BookContract.BookEntry;
 /**
  * Allows user to create a new book or edit an existing one.
  */
-public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Content URI for the existing book (null, if it's a new book) */
-    private Uri mCurrentBookUri;
-
-    /** Identifier for the book data loader */
+    /**
+     * Identifier for the book data loader
+     */
     private static final int EXISTING_BOOK_LOADER = 0;
-
-    /** EditText field to enter the book's name */
+    /**
+     * Content URI for the existing book (null, if it's a new book)
+     */
+    private Uri mCurrentBookUri;
+    /**
+     * EditText field to enter the book's name
+     */
     private EditText mNameEditText;
 
-    /** EditText field to enter the book's price */
+    /**
+     * EditText field to enter the book's price
+     */
     private EditText mPriceEditText;
 
-    /** EditText field to enter the book's quantity */
+    /**
+     * EditText field to enter the book's quantity
+     */
     private EditText mQuantityEditText;
 
-    /** EditText field to enter the book's supplier */
+    /**
+     * EditText field to enter the book's supplier
+     */
     private EditText mSupplierNameEditText;
 
-    /** EditText field to enter the book's supplier phone number */
+    /**
+     * EditText field to enter the book's supplier phone number
+     */
     private EditText mSupplierPhoneEditText;
 
-    /** Boolean flag that keeps track of whether the book has been edited (true) or not (false) */
+    /**
+     * Boolean flag that keeps track of whether the book has been edited (true) or not (false)
+     */
     private boolean mBookHasChanged = false;
 
     /**
@@ -75,7 +89,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         // If the intent does NOT contain a book content URI,
         // then it means we are creating a new book
-        if (mCurrentBookUri == null){
+        if (mCurrentBookUri == null) {
             // This is a new book, so change the app bar title to "Add a Book"
             setTitle(getString(R.string.editor_activity_title_new_book));
 
@@ -141,8 +155,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, supplierString);
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, Integer.parseInt(supplierPhoneString));
 
-        // Determine if this is a new or existing pet by checking if mCurrentPetUri is null or not
-        if (mCurrentBookUri == null){
+        // Determine if this is a new or existing book by checking if mCurrentBookUri is null or not
+        if (mCurrentBookUri == null) {
             // Insert a new book into the provider, returning the content URI for the new book.
             Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
 
@@ -181,7 +195,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        // If this is a new pet, hide the "Delete" menu item.
+        // If this is a new book, hide the "Delete" menu item.
         if (mCurrentBookUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
@@ -196,8 +210,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -373,7 +385,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the book.
-                deletePet();
+                deleteBook();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -394,7 +406,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Perform the deletion of the book in the database.
      */
-    private void deletePet() {
+    private void deleteBook() {
         // Only perform the delete if this is an existing book.
         if (mCurrentBookUri != null) {
             // Call the ContentResolver to delete the book at the given content URI.

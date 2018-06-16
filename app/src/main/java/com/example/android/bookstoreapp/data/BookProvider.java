@@ -14,13 +14,19 @@ import android.util.Log;
  */
 public class BookProvider extends ContentProvider {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = BookProvider.class.getSimpleName();
 
-    /** URI matcher code for the content URI for the books table */
+    /**
+     * URI matcher code for the content URI for the books table
+     */
     private static final int BOOKS = 100;
 
-    /** URI matcher code for the content URI for a single book in the books table */
+    /**
+     * URI matcher code for the content URI for a single book in the books table
+     */
     private static final int BOOK_ID = 101;
 
     /**
@@ -51,7 +57,9 @@ public class BookProvider extends ContentProvider {
         sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, BookContract.PATH_BOOKS + "/#", BOOK_ID);
     }
 
-    /** Database helper object*/
+    /**
+     * Database helper object
+     */
     private BookDbHelper mDbHelper;
 
     /**
@@ -96,7 +104,7 @@ public class BookProvider extends ContentProvider {
                 // arguments that will fill in the "?". Since we have 1 question mark in the
                 // selection, we have 1 String in the selection arguments' String array.
                 selection = BookContract.BookEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 // This will perform a query on the books table where the _id equals 2 to return a
                 // Cursor containing that row of the table.
@@ -173,7 +181,7 @@ public class BookProvider extends ContentProvider {
         }
 
         // Notify all the listeners that the data has changed for the book content URI
-        getContext().getContentResolver().notifyChange(uri,null);
+        getContext().getContentResolver().notifyChange(uri, null);
 
         // Return the new URI with the ID appended at the end
         return ContentUris.withAppendedId(uri, id);
@@ -193,7 +201,7 @@ public class BookProvider extends ContentProvider {
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = BookContract.BookEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateBook(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -274,7 +282,7 @@ public class BookProvider extends ContentProvider {
             case BOOK_ID:
                 // Delete a single row given by the ID in the URI
                 selection = BookContract.BookEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:

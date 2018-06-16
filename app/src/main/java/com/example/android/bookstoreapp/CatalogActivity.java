@@ -26,13 +26,19 @@ import com.example.android.bookstoreapp.data.BookContract;
  */
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the book data loader */
+    /**
+     * Identifier for the book data loader
+     */
     private static final int BOOK_LOADER = 0;
 
-    /** Adapter for the ListView */
+    /**
+     * Adapter for the ListView
+     */
     BookCursorAdapter mCursorAdapter;
 
-    /** The layout that holds the table header */
+    /**
+     * The layout that holds the table header
+     */
     LinearLayout linear;
 
     @Override
@@ -53,6 +59,10 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // Find the ListView which will be populated with the book data
         ListView bookListView = (ListView) findViewById(R.id.list);
 
+        // Inflate the table header when there is book data available
+        View header = getLayoutInflater().inflate(R.layout.header, null);
+        bookListView.addHeaderView(header);
+
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyView);
@@ -61,6 +71,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // There is no book data yet (until the loader finishes) so pass in null for the Cursor
         mCursorAdapter = new BookCursorAdapter(this, null);
         bookListView.setAdapter(mCursorAdapter);
+
 
         // Setup item click listener
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,7 +96,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         });
 
         // Initialise the loader
-        getLoaderManager().initLoader(BOOK_LOADER,null,this);
+        getLoaderManager().initLoader(BOOK_LOADER, null, this);
     }
 
     /**
@@ -114,10 +125,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      */
     private void deleteAllBooks() {
         int rowsDeleted = getContentResolver().delete(BookContract.BookEntry.CONTENT_URI, null, null);
-
-        //When all the books are deleted, hide the table header
-        linear = (LinearLayout) findViewById(R.id.table_columns_label);
-        linear.setVisibility(View.GONE);
 
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from books database");
     }
