@@ -19,7 +19,7 @@
     <!-- Toast message in editor when current book was successfully updated [CHAR LIMIT=NONE] -->
     <string name="editor_update_book_successful">Book updated</string>
 
-    <!-- Toast message in editor when current pet has failed to be updated [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when current book has failed to be updated [CHAR LIMIT=NONE] -->
     <string name="editor_update_book_failed">Error with updating the book</string>
 
     <!-- Label for editor menu option to save book and leave editor [CHAR LIMIT=20] -->
@@ -44,24 +44,30 @@
     <string name="hint_book_quantity">Quantity</string>
 
     <!-- Text hint for supplier's name field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_supplier_name">Supplier name</string>
+    <string name="hint_supplier_name">Supplier\'s name</string>
 
     <!-- Text hint for supplier's phone number field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_supplier_phone_number">Phone number</string>
-    <string name="inventory_contains">The books table contains</string>
-    <string name="inventory_product">books.</string>
-    <string name="dummy_product_name">BookX</string>
-    <string name="dummy_price_value">10</string>
-    <string name="dummy_quantity_value">1</string>
-    <string name="dummy_supplier_name">SupplierX</string>
-    <string name="dummy_supplier_phone_number">00491005222</string>
-    <string name="editor_insert_book_failed">Error with saving the book</string>
-    <string name="editor_insert_book_successful">Book saved</string>
+    <string name="hint_supplier_phone_number">+00496755444</string>
 
-    <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
+    <!-- Text for Dummy Data "Product name" field in the editor [CHAR LIMIT=30] -->
+    <string name="dummy_product_name">BookX</string>
+
+    <!-- Text for Dummy Data "Price" field in the editor [CHAR LIMIT=30] -->
+    <string name="dummy_price_value">10</string>
+
+    <!-- Text for Dummy Data "Quantity" field in the editor [CHAR LIMIT=30] -->
+    <string name="dummy_quantity_value">1</string>
+
+    <!-- Text for Dummy Data "Supplier name" field in the editor [CHAR LIMIT=30] -->
+    <string name="dummy_supplier_name">SupplierX</string>
+
+    <!-- Text for Dummy Data "Supplier phone" field in the editor [CHAR LIMIT=30] -->
+    <string name="dummy_supplier_phone_number">00491005222</string>
+
+   <!-- Title text for the empty view, which describes the empty book image [CHAR LIMIT=50] -->
     <string name="empty_view_title_text">There are no articles in the inventory…</string>
 
-    <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
+    <!-- Subtitle text for the empty view that prompts the user to add a book [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Get started by adding a book</string>
 
     <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
@@ -79,7 +85,13 @@
     <!-- Toast message in editor when current book has failed to be deleted [CHAR LIMIT=NONE] -->
     <string name="editor_delete_book_failed">Error with deleting the book</string>
 
-    <!-- Dialog message to ask the user to confirm deleting the current book [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when book has failed to be saved [CHAR LIMIT=NONE] -->
+    <string name="editor_insert_book_failed">Error with saving the book</string>
+
+    <!-- Toast message in editor when book has been saved successfully [CHAR LIMIT=NONE] -->
+    <string name="editor_insert_book_successful">Book saved</string>
+
+   <!-- Dialog message to ask the user to confirm deleting the current book [CHAR LIMIT=NONE] -->
     <string name="delete_dialog_msg">Delete this book?</string>
 
     <!-- Dialog button text for the option to confirm deleting the current book [CHAR LIMIT=20] -->
@@ -87,8 +99,16 @@
 
     <!-- Dialog button text for the option to cancel deletion of the current book [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
+
+    <!-- Label for the "Product name" column of the table header [CHAR LIMIT=30] -->
     <string name="table_header_product_name">Product Name</string>
+
+    <!-- Label for the "Price" column of the table header [CHAR LIMIT=30] -->
     <string name="table_header_price">Price</string>
+
+    <!-- Label for the "Quantity" column of the table header [CHAR LIMIT=30] -->
     <string name="table_header_quantity">Quantity</string>
+
+    <!-- Content description for the empty view image [CHAR LIMIT=30] -->
     <string name="empty_view_image_content_description">Empty view image</string>
 </resources>

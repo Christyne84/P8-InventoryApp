@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.android.bookstoreapp.data.BookContract;
@@ -36,11 +35,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      */
     BookCursorAdapter mCursorAdapter;
 
-    /**
-     * The layout that holds the table header
-     */
-    LinearLayout linear;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +51,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         });
 
         // Find the ListView which will be populated with the book data
-        ListView bookListView = (ListView) findViewById(R.id.list);
+        ListView bookListView = findViewById(R.id.list);
 
         // Inflate the table header when there is book data available
         View header = getLayoutInflater().inflate(R.layout.header, null);
