@@ -12,12 +12,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.bookstoreapp.data.BookContract.BookEntry;
@@ -112,6 +114,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierNameEditText = findViewById(R.id.edit_book_supplier_name);
         mSupplierPhoneEditText = findViewById(R.id.edit_book_supplier_phone_number);
 
+        // Don't allow input of negative numbers in the Quantity field
+        mQuantityEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -125,7 +130,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /*
      * Get user input from editor and save the book into the database.
      */
-    private void saveBook() {
+    private boolean saveBook() {
 
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
@@ -137,13 +142,53 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         // Check if this is supposed to be a new book
         // and check if all the fields in the editor are blank
-        if (mCurrentBookUri == null &&
-                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceString) &&
+        if (mCurrentBookUri == null && TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceString) &&
                 TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierString) &&
                 TextUtils.isEmpty(supplierPhoneString)) {
             // Since no fields were modified, we can return early without creating a new book.
             // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
+            return true;
+        }
+
+        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(priceString) ||
+                TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(supplierString) ||
+                TextUtils.isEmpty(supplierPhoneString)) {
+
+            TextView requiredFieldNameEditText = findViewById(R.id.required_label_for_name_field);
+            TextView requiredFieldQuantityEditText = findViewById(R.id.required_label_for_quantity_field);
+            TextView requiredFieldSupplierNameEditText = findViewById(R.id.required_label_for_supplier_name_field);
+            TextView requiredFieldSupplierPhoneEditText = findViewById(R.id.required_label_for_supplier_phone_field);
+
+            Toast.makeText(this, "Please enter all the details for the book", Toast.LENGTH_SHORT).show();
+
+            if (TextUtils.isEmpty(supplierPhoneString)) {
+                requiredFieldSupplierPhoneEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mSupplierPhoneEditText.setError("Required field");
+                mSupplierPhoneEditText.requestFocus();
+            }
+
+            if (TextUtils.isEmpty(supplierString)) {
+                requiredFieldSupplierNameEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mSupplierNameEditText.setError("Required field");
+                mSupplierNameEditText.requestFocus();
+            }
+
+            if (TextUtils.isEmpty(quantityString)) {
+                requiredFieldQuantityEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mQuantityEditText.setError("Required field");
+                mQuantityEditText.requestFocus();
+            }
+
+            if (TextUtils.isEmpty(priceString)) {
+                mPriceEditText.requestFocus();
+            }
+
+            if (TextUtils.isEmpty(nameString)) {
+                requiredFieldNameEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mNameEditText.setError("Required field");
+                mNameEditText.requestFocus();
+            }
+            return false;
         }
 
         // Create a ContentValues object where column names are the keys,
@@ -153,7 +198,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(BookEntry.COLUMN_PRICE, Integer.parseInt(priceString));
         values.put(BookEntry.COLUMN_QUANTITY, Integer.parseInt(quantityString));
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, supplierString);
-        values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, Integer.parseInt(supplierPhoneString));
+        values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, supplierPhoneString);
 
         // Determine if this is a new or existing book by checking if mCurrentBookUri is null or not
         if (mCurrentBookUri == null) {
@@ -164,6 +209,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.
                 Toast.makeText(this, R.string.editor_insert_book_failed, Toast.LENGTH_SHORT).show();
+                return false;
             } else {
                 // Otherwise, the insertion was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_insert_book_successful), Toast.LENGTH_SHORT).show();
@@ -180,12 +226,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 // If no rows were affected, then there was an error with the update.
                 Toast.makeText(this, getString(R.string.editor_update_book_failed),
                         Toast.LENGTH_SHORT).show();
+                return false;
             } else {
                 // Otherwise, the update was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_update_book_successful),
                         Toast.LENGTH_SHORT).show();
             }
         }
+
+        return true;
     }
 
     /**
@@ -218,9 +267,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save the book into the database
-                saveBook();
-                // Exit activity
-                finish();
+                if(true == saveBook()) {
+                    // Exit activity
+                    finish();
+                }
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
@@ -324,14 +374,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int price = cursor.getInt(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             String supplierName = cursor.getString(supplierNameColumnIndex);
-            int supplierPhoneNumber = cursor.getInt(supplierPhoneNumberColumnIndex);
+            String supplierPhoneNumber = cursor.getString(supplierPhoneNumberColumnIndex);
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mPriceEditText.setText(Integer.toString(price));
             mQuantityEditText.setText(Integer.toString(quantity));
             mSupplierNameEditText.setText(supplierName);
-            mSupplierPhoneEditText.setText(Integer.toString(supplierPhoneNumber));
+            mSupplierPhoneEditText.setText(supplierPhoneNumber);
         }
     }
 

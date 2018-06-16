@@ -98,7 +98,7 @@ public final class BookContract {
         /**
          * Supplier's phone number for the book.
          * <p>
-         * Type: INTEGER
+         * Type: TEXT
          */
         public final static String COLUMN_SUPPLIER_PHONE_NUMBER = "phone";
     }

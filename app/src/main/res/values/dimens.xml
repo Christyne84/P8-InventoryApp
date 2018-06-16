@@ -4,5 +4,6 @@
 
     <!-- Common margin value used throughout the app -->
     <dimen name="activity_margin">16dp</dimen>
+    <dimen name="text_field_label_padding">12dp</dimen>
 </resources>
 

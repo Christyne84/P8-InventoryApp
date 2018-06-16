@@ -18,9 +18,9 @@
     <!-- Style for a category in the editor -->
     <style name="CategoryStyle">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
     </style>
@@ -29,6 +29,9 @@
     <style name="EditorFieldStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">@dimen/text_field_label_padding</item>
+        <item name="android:ems">10</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
     </style>
 </resources>

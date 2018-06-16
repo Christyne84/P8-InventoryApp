@@ -142,31 +142,35 @@ public class BookProvider extends ContentProvider {
      * for that specific row in the database.
      */
     private Uri insertBook(Uri uri, ContentValues values) {
-        // Check that the name of the book is not null
+        // Check that the name of the book is null or empty
         String name = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
-        if (name == null) {
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Book requires a name");
         }
 
-        // Check that the price of the book is not null and positive number
+        // Check that the price of the book is null or negative number
         Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_PRICE);
-        if (price != null && price < 0) {
+        if (price == null || price < 0) {
             throw new IllegalArgumentException("Book requires a valid price");
         }
 
-        // Check that the quantity of the book is not null and positive number
+        // Check that the quantity of the book is null or negative number
         Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_QUANTITY);
-        if (quantity != null && quantity < 0) {
+        if (quantity == null || quantity < 0) {
             throw new IllegalArgumentException("Book requires a valid quantity");
         }
 
-        // Check that the Supplier's name of the book is not null
+        // Check that the Supplier's name of the book is null or empty
         String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_SUPPLIER_NAME);
-        if (supplierName == null) {
+        if (supplierName == null || supplierName.isEmpty()) {
             throw new IllegalArgumentException("Book requires a Supplier Name");
         }
 
-        // No need to check the Supplier's Phone Number, any value is valid (including null).
+/*        // Check that the Supplier's Phone Number for the book is null or empty
+        String supplierPhone = values.getAsString(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+        if (supplierPhone == null || supplierPhone.isEmpty()) {
+            throw new IllegalArgumentException("Book requires a Supplier Phone Number");
+        }*/
 
         // Get writable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -233,7 +237,7 @@ public class BookProvider extends ContentProvider {
             throw new IllegalArgumentException("Book requires a valid quantity");
         }
 
-        // Check that the Supplier's Name fof the book is not null
+        // Check that the Supplier's Name for the book is not null
         String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_SUPPLIER_NAME);
         if (supplierName == null) {
             throw new IllegalArgumentException("Book requires Supplier's Name");
