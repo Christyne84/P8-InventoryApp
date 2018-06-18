@@ -1,12 +1,17 @@
 package com.example.android.bookstoreapp;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.bookstoreapp.data.BookContract;
 
@@ -53,16 +58,18 @@ public class BookCursorAdapter extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        Button saleButton = view.findViewById(R.id.sale_button);
 
         // Find the columns of book attributes that we're interested in
-        int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
-        int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_PRICE);
-        int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_QUANTITY);
+        final int idColumnIndex = cursor.getColumnIndex(BookContract.BookEntry._ID);
+        final int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
+        final int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_PRICE);
+        final int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_QUANTITY);
 
         // Read the book attributes from the Cursor for the current book
         String bookName = cursor.getString(nameColumnIndex);
@@ -74,5 +81,28 @@ public class BookCursorAdapter extends CursorAdapter {
         priceTextView.setText(Integer.toString(price));
         quantityTextView.setText(Integer.toString(quantity));
 
+        String currentQuantityString = cursor.getString(quantityColumnIndex);
+        final int currentQuantityInt = Integer.parseInt(currentQuantityString);
+
+        final int id = cursor.getInt(idColumnIndex);
+
+        saleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentQuantityInt > 0 ) {
+                    //Integer.valueOf(quantityTextView.getText().toString());
+                    int newQuantity = currentQuantityInt - 1;
+                    quantityTextView.setText("" + newQuantity);
+
+                    Uri uriQuantity = ContentUris.withAppendedId(BookContract.BookEntry.CONTENT_URI, id);
+
+                    ContentValues values = new ContentValues();
+                    values.put(BookContract.BookEntry.COLUMN_QUANTITY, newQuantity);
+                    context.getContentResolver().update(uriQuantity, values, null, null);
+                } else {
+                    Toast.makeText(context, "This book is out of stock!", Toast.LENGTH_SHORT).show();
+                }
+            }
+       });
     }
 }

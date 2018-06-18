@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Layout for the editor -->
-<ScrollView android:layout_width="match_parent"
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -59,16 +60,53 @@
                         android:hint="@string/hint_book_price"
                         android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/required_label_for_price_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="* Required"
+                    android:paddingLeft="@dimen/text_field_label_padding"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
                 <!-- Quantity field -->
-                <android.support.design.widget.TextInputLayout
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-                    <EditText
-                        android:id="@+id/edit_book_quantity"
-                        style="@style/EditorFieldStyle"
-                        android:hint="@string/hint_book_quantity" />
-                </android.support.design.widget.TextInputLayout>
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp">
+                        <EditText
+                            android:id="@+id/edit_book_quantity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/text_field_label_padding"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:hint="@string/hint_book_quantity" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Button
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:background="@drawable/button_minus"
+                        android:layout_marginTop="20dp"
+                        android:onClick="decrement"/>
+
+                    <Button
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/button_plus"
+                        android:onClick="increment"/>
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/required_label_for_quantity_field"
                     android:layout_width="match_parent"

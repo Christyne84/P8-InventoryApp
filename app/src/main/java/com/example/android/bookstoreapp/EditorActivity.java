@@ -68,6 +68,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private boolean mBookHasChanged = false;
 
     /**
+     * Global variable int quantity.
+     */
+    int quantity;
+
+    /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
      * the view, and we change the mBookHasChanged boolean to true.
      */
@@ -138,7 +143,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String supplierString = mSupplierNameEditText.getText().toString().trim();
-        String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
+        String supplierPhoneString = mSupplierPhoneEditText.getText().toString();
 
         // Check if this is supposed to be a new book
         // and check if all the fields in the editor are blank
@@ -156,6 +161,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             TextView requiredFieldNameEditText = findViewById(R.id.required_label_for_name_field);
             TextView requiredFieldQuantityEditText = findViewById(R.id.required_label_for_quantity_field);
+            TextView requiredFieldPriceEditText = findViewById(R.id.required_label_for_price_field);
             TextView requiredFieldSupplierNameEditText = findViewById(R.id.required_label_for_supplier_name_field);
             TextView requiredFieldSupplierPhoneEditText = findViewById(R.id.required_label_for_supplier_phone_field);
 
@@ -175,11 +181,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             if (TextUtils.isEmpty(quantityString)) {
                 requiredFieldQuantityEditText.setTextColor(getResources().getColor(R.color.colorAccent));
-                mQuantityEditText.setError("Required field");
+                mQuantityEditText.setError(null);
                 mQuantityEditText.requestFocus();
             }
 
             if (TextUtils.isEmpty(priceString)) {
+                requiredFieldPriceEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mPriceEditText.setError("Required field");
                 mPriceEditText.requestFocus();
             }
 
@@ -235,6 +243,41 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         return true;
+    }
+
+    /**
+     * This method is called when the + button is clicked, to increase quantity.
+     */
+    public void increment(View view){
+        quantity = Integer.valueOf(mQuantityEditText.getText().toString());
+        quantity ++;
+        displayQuantity(quantity);
+        mBookHasChanged = true;
+   }
+
+    /**
+     * This method is called when the - button is clicked, to decrease quantity.
+     */
+    public void decrement(View view){
+        quantity = Integer.valueOf(mQuantityEditText.getText().toString());
+        if (quantity < 1) {
+
+            // Show an error message as a toast
+            Toast.makeText(this, "Quantity cannot be less than 0", Toast.LENGTH_SHORT).show();
+            // Exit this method early because there's nothing left to do
+            return;
+        }
+        quantity --;
+        displayQuantity(quantity);
+        mBookHasChanged = true;
+    }
+
+    /**
+     * This method displays the given quantity value on the screen.
+     */
+    private void displayQuantity(int number) {
+        EditText quantityTextView = findViewById(R.id.edit_book_quantity);
+        quantityTextView.setText("" + number);
     }
 
     /**
@@ -409,13 +452,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
-        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+        builder.setNeutralButton("Keep editing", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
                 // and continue editing the book.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
+            }
+        });
+        builder.setNegativeButton("Save", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Save button, so save the book
+                saveBook();
+                finish();
             }
         });
 
@@ -475,7 +526,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
             }
         }
-
         // Close the activity
         finish();
     }

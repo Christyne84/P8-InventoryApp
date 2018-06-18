@@ -55,7 +55,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
         // Inflate the table header when there is book data available
         View header = getLayoutInflater().inflate(R.layout.header, null);
-        bookListView.addHeaderView(header);
+        bookListView.addHeaderView(header, null,false);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
@@ -65,7 +65,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // There is no book data yet (until the loader finishes) so pass in null for the Cursor
         mCursorAdapter = new BookCursorAdapter(this, null);
         bookListView.setAdapter(mCursorAdapter);
-
 
         // Setup item click listener
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
