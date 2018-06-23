@@ -53,10 +53,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // Find the ListView which will be populated with the book data
         ListView bookListView = findViewById(R.id.list);
 
-        // Inflate the table header when there is book data available
-        View header = getLayoutInflater().inflate(R.layout.header, null);
-        bookListView.addHeaderView(header, null,false);
-
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyView);

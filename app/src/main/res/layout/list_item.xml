@@ -4,51 +4,81 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:descendantFocusability="blocksDescendants"
-    android:padding="@dimen/activity_margin">
+    android:padding="@dimen/activity_margin"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="4">
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical" >
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:fontFamily="sans-serif-medium"
             android:hint="@string/hint_book_name"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#2B3D4D" />
+            android:textSize="16sp"
+            android:textColor="@color/editorColorPrimary"
+            />
 
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:hint="@string/hint_book_price"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#2B3D4D" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: "
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_book_price"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="euro"
+                android:textSize="14sp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quantity: "
+                android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/quantity"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
+            android:layout_gravity="center_vertical"
             android:hint="@string/hint_book_quantity"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#2B3D4D" />
+            android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/sale_button"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:text="sale"/>
+        android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/sale_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/buttonColor"
+            android:textColor="@color/colorAccent"
+            android:text="Sale"/>
+    </LinearLayout>
 </LinearLayout>

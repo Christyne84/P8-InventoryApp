@@ -35,7 +35,7 @@
     <string name="category_supplier">Supplier</string>
 
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_book_name">Name*</string>
+    <string name="hint_book_name">Product Name*</string>
 
     <!-- Text hint for book price field in the editor [CHAR LIMIT=30] -->
     <string name="hint_book_price">Price*</string>
@@ -99,15 +99,6 @@
 
     <!-- Dialog button text for the option to cancel deletion of the current book [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
-
-    <!-- Label for the "Product name" column of the table header [CHAR LIMIT=30] -->
-    <string name="table_header_product_name">Product Name</string>
-
-    <!-- Label for the "Price" column of the table header [CHAR LIMIT=30] -->
-    <string name="table_header_price">Price</string>
-
-    <!-- Label for the "Quantity" column of the table header [CHAR LIMIT=30] -->
-    <string name="table_header_quantity">Quantity</string>
 
     <!-- Content description for the empty view image [CHAR LIMIT=30] -->
     <string name="empty_view_image_content_description">Empty view image</string>

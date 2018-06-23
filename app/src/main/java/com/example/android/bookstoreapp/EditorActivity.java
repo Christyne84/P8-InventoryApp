@@ -248,7 +248,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * This method is called when the + button is clicked, to increase quantity.
      */
-    public void increment(View view){
+    public void increment(){
         quantity = Integer.valueOf(mQuantityEditText.getText().toString());
         quantity ++;
         displayQuantity(quantity);
@@ -258,7 +258,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * This method is called when the - button is clicked, to decrease quantity.
      */
-    public void decrement(View view){
+    public void decrement(){
         quantity = Integer.valueOf(mQuantityEditText.getText().toString());
         if (quantity < 1) {
 
@@ -452,7 +452,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
-        builder.setNeutralButton("Keep editing", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
