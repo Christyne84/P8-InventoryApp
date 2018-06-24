@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
@@ -17,7 +18,7 @@ public class BookProvider extends ContentProvider {
     /**
      * Tag for the log messages
      */
-    public static final String LOG_TAG = BookProvider.class.getSimpleName();
+    private static final String LOG_TAG = BookProvider.class.getSimpleName();
 
     /**
      * URI matcher code for the content URI for the books table
@@ -76,7 +77,7 @@ public class BookProvider extends ContentProvider {
      * selection arguments, and sort order.
      */
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
         // Get readable database
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
@@ -117,7 +118,9 @@ public class BookProvider extends ContentProvider {
 
         // Set notification URI on the Cursor, so we know what content URI the Cursor was created for.
         // If the data at this URI changes, then we know we need to update the Cursor.
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        if (getContext() != null) {
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
 
         // Return the cursor
         return cursor;
@@ -127,7 +130,7 @@ public class BookProvider extends ContentProvider {
      * Insert new data into the provider with the given ContentValues.
      */
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
@@ -185,7 +188,9 @@ public class BookProvider extends ContentProvider {
         }
 
         // Notify all the listeners that the data has changed for the book content URI
-        getContext().getContentResolver().notifyChange(uri, null);
+        if (getContext() != null) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
 
         // Return the new URI with the ID appended at the end
         return ContentUris.withAppendedId(uri, id);
@@ -195,7 +200,7 @@ public class BookProvider extends ContentProvider {
      * Updates the data at the given selection and selection arguments, with the new ContentValues.
      */
     @Override
-    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
@@ -266,7 +271,7 @@ public class BookProvider extends ContentProvider {
 
         // If 1 or more rows were updated, then notify all listeners that the data at the
         // given URI has changed
-        if (rowsUpdated != 0) {
+        if (rowsUpdated != 0 && getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
@@ -278,7 +283,7 @@ public class BookProvider extends ContentProvider {
      * Delete the data at the given selection and selection arguments.
      */
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         // Get writable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
@@ -302,7 +307,7 @@ public class BookProvider extends ContentProvider {
         }
         // If 1 or more rows were deleted, then notify all listeners that the data at the
         // given URI has changed
-        if (rowsDeleted != 0) {
+        if (rowsDeleted != 0  && getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
@@ -314,7 +319,7 @@ public class BookProvider extends ContentProvider {
      * Returns the MIME type of data for the content URI.
      */
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:

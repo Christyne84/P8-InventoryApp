@@ -33,7 +33,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     /**
      * Adapter for the ListView
      */
-    BookCursorAdapter mCursorAdapter;
+    private BookCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // Use the {@link BookEntry#CONTENT_URI} to indicate that we want to insert
         // into the books database table.
         // Receive the new content URI that will allow us to access BookX's data in the future.
-        Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
+        getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
     }
 
     /**

@@ -12,12 +12,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     private static final int EXISTING_BOOK_LOADER = 0;
     /**
+     * Global variable int quantity.
+     */
+    private int quantity;
+    /**
      * Content URI for the existing book (null, if it's a new book)
      */
     private Uri mCurrentBookUri;
@@ -41,48 +47,42 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      * EditText field to enter the book's name
      */
     private EditText mNameEditText;
-
     /**
      * EditText field to enter the book's price
      */
     private EditText mPriceEditText;
-
     /**
      * EditText field to enter the book's quantity
      */
     private EditText mQuantityEditText;
-
     /**
      * EditText field to enter the book's supplier
      */
     private EditText mSupplierNameEditText;
-
     /**
      * EditText field to enter the book's supplier phone number
      */
     private EditText mSupplierPhoneEditText;
-
     /**
      * Boolean flag that keeps track of whether the book has been edited (true) or not (false)
      */
     private boolean mBookHasChanged = false;
 
-    /**
-     * Global variable int quantity.
-     */
-    int quantity;
-
-    /**
-     * OnTouchListener that listens for any user touches on a View, implying that they are modifying
-     * the view, and we change the mBookHasChanged boolean to true.
-     */
-    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+    private final TextWatcher mTextWatcher = new TextWatcher() {
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
             mBookHasChanged = true;
-            return false;
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
         }
     };
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +118,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText = findViewById(R.id.edit_book_quantity);
         mSupplierNameEditText = findViewById(R.id.edit_book_supplier_name);
         mSupplierPhoneEditText = findViewById(R.id.edit_book_supplier_phone_number);
+        Button orderButton = findViewById(R.id.order_button);
 
         // Don't allow input of negative numbers in the Quantity field
         mQuantityEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -125,11 +126,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
-        mNameEditText.setOnTouchListener(mTouchListener);
-        mPriceEditText.setOnTouchListener(mTouchListener);
-        mQuantityEditText.setOnTouchListener(mTouchListener);
-        mSupplierNameEditText.setOnTouchListener(mTouchListener);
-        mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+        mNameEditText.addTextChangedListener(mTextWatcher);
+        mPriceEditText.addTextChangedListener(mTextWatcher);
+        mQuantityEditText.addTextChangedListener(mTextWatcher);
+        mSupplierNameEditText.addTextChangedListener(mTextWatcher);
+        mSupplierPhoneEditText.addTextChangedListener(mTextWatcher);
+
+        // Click listener to handle the order button.
+        orderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                order();
+            }
+        });
     }
 
     /*
@@ -147,8 +156,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         // Check if this is supposed to be a new book
         // and check if all the fields in the editor are blank
-        if (mCurrentBookUri == null && TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceString) &&
-                TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierString) &&
+        if (mCurrentBookUri == null && TextUtils.isEmpty(nameString) &&
+                TextUtils.isEmpty(priceString) &&
+                TextUtils.isEmpty(quantityString) &&
+                TextUtils.isEmpty(supplierString) &&
                 TextUtils.isEmpty(supplierPhoneString)) {
             // Since no fields were modified, we can return early without creating a new book.
             // No need to create ContentValues and no need to do any ContentProvider operations.
@@ -167,34 +178,30 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             Toast.makeText(this, "Please enter all the details for the book", Toast.LENGTH_SHORT).show();
 
-            if (TextUtils.isEmpty(supplierPhoneString)) {
-                requiredFieldSupplierPhoneEditText.setTextColor(getResources().getColor(R.color.colorAccent));
-                mSupplierPhoneEditText.setError("Required field");
-                mSupplierPhoneEditText.requestFocus();
-            }
-
-            if (TextUtils.isEmpty(supplierString)) {
-                requiredFieldSupplierNameEditText.setTextColor(getResources().getColor(R.color.colorAccent));
-                mSupplierNameEditText.setError("Required field");
-                mSupplierNameEditText.requestFocus();
-            }
-
-            if (TextUtils.isEmpty(quantityString)) {
-                requiredFieldQuantityEditText.setTextColor(getResources().getColor(R.color.colorAccent));
-                mQuantityEditText.setError(null);
-                mQuantityEditText.requestFocus();
-            }
-
-            if (TextUtils.isEmpty(priceString)) {
-                requiredFieldPriceEditText.setTextColor(getResources().getColor(R.color.colorAccent));
-                mPriceEditText.setError("Required field");
-                mPriceEditText.requestFocus();
-            }
-
             if (TextUtils.isEmpty(nameString)) {
                 requiredFieldNameEditText.setTextColor(getResources().getColor(R.color.colorAccent));
                 mNameEditText.setError("Required field");
                 mNameEditText.requestFocus();
+            }
+            else if (TextUtils.isEmpty(priceString)) {
+                requiredFieldPriceEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mPriceEditText.setError("Required field");
+                mPriceEditText.requestFocus();
+            }
+            else if (TextUtils.isEmpty(quantityString)) {
+                requiredFieldQuantityEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mQuantityEditText.setError(null);
+                mQuantityEditText.requestFocus();
+            }
+            else if (TextUtils.isEmpty(supplierString)) {
+                requiredFieldSupplierNameEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mSupplierNameEditText.setError("Required field");
+                mSupplierNameEditText.requestFocus();
+            }
+            else if (TextUtils.isEmpty(supplierPhoneString)) {
+                requiredFieldSupplierPhoneEditText.setTextColor(getResources().getColor(R.color.colorAccent));
+                mSupplierPhoneEditText.setError("Required field");
+                mSupplierPhoneEditText.requestFocus();
             }
             return false;
         }
@@ -241,35 +248,41 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
             }
         }
-
         return true;
     }
 
     /**
-     * This method is called when the + button is clicked, to increase quantity.
+     * This method is called when the plus "+" button is clicked, to increase quantity.
      */
-    public void increment(){
-        quantity = Integer.valueOf(mQuantityEditText.getText().toString());
-        quantity ++;
-        displayQuantity(quantity);
-        mBookHasChanged = true;
-   }
+    public void increment(View view) {
+        String quantityString = mQuantityEditText.getText().toString().trim();
+        if ((!TextUtils.isEmpty(quantityString))) {
+            quantity = Integer.valueOf(quantityString) + 1;
+            displayQuantity(quantity);
+        } else {
+            quantity = 0;
+            displayQuantity(quantity);
+        }
+    }
 
     /**
-     * This method is called when the - button is clicked, to decrease quantity.
+     * This method is called when the minus "-" button is clicked, to decrease quantity.
      */
-    public void decrement(){
-        quantity = Integer.valueOf(mQuantityEditText.getText().toString());
-        if (quantity < 1) {
-
-            // Show an error message as a toast
-            Toast.makeText(this, "Quantity cannot be less than 0", Toast.LENGTH_SHORT).show();
-            // Exit this method early because there's nothing left to do
-            return;
+    public void decrement(View view) {
+        String quantityString = mQuantityEditText.getText().toString().trim();
+        if ((!TextUtils.isEmpty(quantityString))) {
+            quantity = Integer.valueOf(quantityString);
+            if (quantity < 1) {
+                // Show an error message as a toast
+                Toast.makeText(this, "Quantity cannot be less than 0", Toast.LENGTH_SHORT).show();
+            } else {
+                quantity--;
+                displayQuantity(quantity);
+            }
+        } else {
+            quantity = 0;
+            displayQuantity(quantity);
         }
-        quantity --;
-        displayQuantity(quantity);
-        mBookHasChanged = true;
     }
 
     /**
@@ -277,7 +290,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     private void displayQuantity(int number) {
         EditText quantityTextView = findViewById(R.id.edit_book_quantity);
-        quantityTextView.setText("" + number);
+        quantityTextView.setText(String.valueOf(number));
     }
 
     /**
@@ -310,7 +323,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save the book into the database
-                if(true == saveBook()) {
+                if (saveBook()) {
                     // Exit activity
                     finish();
                 }
@@ -466,7 +479,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Save button, so save the book
                 saveBook();
-                finish();
+                if (saveBook()) {
+                    // Exit activity
+                    finish();
+                }
             }
         });
 
@@ -528,5 +544,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
         // Close the activity
         finish();
+    }
+
+    /**
+     * Start intent to contact the supplier when Order button is pressed. Opens the dialer and
+     * retrieves the phone number stored in the Supplier's Phone Number EditText field.
+     */
+    private void order() {
+        String phoneNumber = mSupplierPhoneEditText.getText().toString().trim();
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+        if (intent.resolveActivity(getPackageManager()) != null && !phoneNumber.isEmpty()) {
+            startActivity(intent);
+        } else if (phoneNumber.isEmpty()) {
+            Toast.makeText(this, getString(R.string.toast_message_order_button_phone_empty), Toast.LENGTH_LONG).show();
+        }
     }
 }

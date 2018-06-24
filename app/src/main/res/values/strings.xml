@@ -47,7 +47,7 @@
     <string name="hint_supplier_name">Supplier\'s name*</string>
 
     <!-- Text hint for supplier's phone number field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_supplier_phone_number">Suppliers\'s Phone Number*</string>
+    <string name="hint_supplier_phone_number">Supplier\'s Phone Number*</string>
 
     <!-- Text for Dummy Data "Product name" field in the editor [CHAR LIMIT=30] -->
     <string name="dummy_product_name">BookX</string>
@@ -102,4 +102,5 @@
 
     <!-- Content description for the empty view image [CHAR LIMIT=30] -->
     <string name="empty_view_image_content_description">Empty view image</string>
+    <string name="toast_message_order_button_phone_empty">Please enter a phone number first</string>
 </resources>

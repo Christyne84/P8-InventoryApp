@@ -149,16 +149,41 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
                 <!-- Supplier's phone number field -->
-                <android.support.design.widget.TextInputLayout
+
+                <RelativeLayout
+                    android:id="@+id/supplier_phone_number_parent_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-                    <EditText
-                        android:id="@+id/edit_book_supplier_phone_number"
-                        style="@style/EditorFieldStyle"
-                        android:hint="@string/hint_supplier_phone_number"
-                        android:inputType="phone" />
-                </android.support.design.widget.TextInputLayout>
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_layout_supplier_phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/order_button"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_toLeftOf="@id/order_button">
+                        <EditText
+                            android:id="@+id/edit_book_supplier_phone_number"
+                            style="@style/EditorFieldStyle"
+                            android:hint="@string/hint_supplier_phone_number"
+                            android:inputType="phone" />
+                    </android.support.design.widget.TextInputLayout>
+                    <Button
+                        android:id="@+id/order_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:background="@color/buttonColor"
+                        android:textColor="@color/colorAccent"
+                        android:text="Order"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
                 <TextView
                     android:id="@+id/required_label_for_supplier_phone_field"
                     android:layout_width="match_parent"
