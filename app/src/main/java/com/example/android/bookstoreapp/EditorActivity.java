@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -26,6 +25,8 @@ import android.widget.Toast;
 
 import com.example.android.bookstoreapp.data.BookContract.BookEntry;
 
+import java.util.Locale;
+
 /**
  * Allows user to create a new book or edit an existing one.
  */
@@ -36,7 +37,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     private static final int EXISTING_BOOK_LOADER = 0;
     /**
-     * Global variable int quantity.
+     * Global variable for quantity.
      */
     private int quantity;
     /**
@@ -67,7 +68,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      * Boolean flag that keeps track of whether the book has been edited (true) or not (false)
      */
     private boolean mBookHasChanged = false;
-
+    /**
+     * Text watcher: when an EditText is changed, change the mBookHasChanged to true,
+     * which means that the book data has changed
+     */
     private final TextWatcher mTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -80,9 +84,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         @Override
         public void afterTextChanged(Editable s) {
+
         }
     };
-    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +123,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierNameEditText = findViewById(R.id.edit_book_supplier_name);
         mSupplierPhoneEditText = findViewById(R.id.edit_book_supplier_phone_number);
         Button orderButton = findViewById(R.id.order_button);
+        Button plusButton = findViewById(R.id.editor_activity_plus_button);
+        Button minusButton = findViewById(R.id.editor_activity_minus_button);
 
-        // Don't allow input of negative numbers in the Quantity field
-        mQuantityEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-        // Setup OnTouchListeners on all the input fields, so we can determine if the user
+        // Setup text change listener on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
         mNameEditText.addTextChangedListener(mTextWatcher);
@@ -139,6 +142,23 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 order();
             }
         });
+
+        // Click listener to handle the minus button.
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrement();
+            }
+        });
+
+        // Click listener to handle the plus button.
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increment();
+            }
+        });
+
     }
 
     /*
@@ -146,16 +166,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     private boolean saveBook() {
 
-        // Read from input fields
-        // Use trim to eliminate leading or trailing white space
+        // Read from input fields.
+        // Use trim to eliminate leading or trailing white space.
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String supplierString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString();
 
-        // Check if this is supposed to be a new book
-        // and check if all the fields in the editor are blank
+        // Check if this is supposed to be a new book and
+        // check if all the fields in the editor are blank.
         if (mCurrentBookUri == null && TextUtils.isEmpty(nameString) &&
                 TextUtils.isEmpty(priceString) &&
                 TextUtils.isEmpty(quantityString) &&
@@ -166,39 +186,41 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return true;
         }
 
+        // Check if any of the 5 required fields is empty
         if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(priceString) ||
                 TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(supplierString) ||
                 TextUtils.isEmpty(supplierPhoneString)) {
 
+            // Find the views
             TextView requiredFieldNameEditText = findViewById(R.id.required_label_for_name_field);
             TextView requiredFieldQuantityEditText = findViewById(R.id.required_label_for_quantity_field);
             TextView requiredFieldPriceEditText = findViewById(R.id.required_label_for_price_field);
             TextView requiredFieldSupplierNameEditText = findViewById(R.id.required_label_for_supplier_name_field);
             TextView requiredFieldSupplierPhoneEditText = findViewById(R.id.required_label_for_supplier_phone_field);
 
+            // Let the user know that all the fields are required to be filled in
             Toast.makeText(this, "Please enter all the details for the book", Toast.LENGTH_SHORT).show();
 
+            // If there are empty fields, change the color of the caption "* required" to be
+            // more visible. Also show an error sign and move the focus to that field,
+            // so he can fill it in.
             if (TextUtils.isEmpty(nameString)) {
                 requiredFieldNameEditText.setTextColor(getResources().getColor(R.color.colorAccent));
                 mNameEditText.setError("Required field");
                 mNameEditText.requestFocus();
-            }
-            else if (TextUtils.isEmpty(priceString)) {
+            } else if (TextUtils.isEmpty(priceString)) {
                 requiredFieldPriceEditText.setTextColor(getResources().getColor(R.color.colorAccent));
                 mPriceEditText.setError("Required field");
                 mPriceEditText.requestFocus();
-            }
-            else if (TextUtils.isEmpty(quantityString)) {
+            } else if (TextUtils.isEmpty(quantityString)) {
                 requiredFieldQuantityEditText.setTextColor(getResources().getColor(R.color.colorAccent));
                 mQuantityEditText.setError(null);
                 mQuantityEditText.requestFocus();
-            }
-            else if (TextUtils.isEmpty(supplierString)) {
+            } else if (TextUtils.isEmpty(supplierString)) {
                 requiredFieldSupplierNameEditText.setTextColor(getResources().getColor(R.color.colorAccent));
                 mSupplierNameEditText.setError("Required field");
                 mSupplierNameEditText.requestFocus();
-            }
-            else if (TextUtils.isEmpty(supplierPhoneString)) {
+            } else if (TextUtils.isEmpty(supplierPhoneString)) {
                 requiredFieldSupplierPhoneEditText.setTextColor(getResources().getColor(R.color.colorAccent));
                 mSupplierPhoneEditText.setError("Required field");
                 mSupplierPhoneEditText.requestFocus();
@@ -252,24 +274,29 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     /**
-     * This method is called when the plus "+" button is clicked, to increase quantity.
+     * This method is called when the plus "+" button is clicked, to increase quantity by 1.
      */
-    public void increment(View view) {
+    private void increment() {
         String quantityString = mQuantityEditText.getText().toString().trim();
+        // If the quantity already has a value, then increase it by 1.
+        // Otherwise, set it to have an initial value of 0
         if ((!TextUtils.isEmpty(quantityString))) {
             quantity = Integer.valueOf(quantityString) + 1;
-            displayQuantity(quantity);
         } else {
             quantity = 0;
-            displayQuantity(quantity);
         }
+        displayQuantity(quantity);
     }
 
     /**
-     * This method is called when the minus "-" button is clicked, to decrease quantity.
+     * This method is called when the minus "-" button is clicked, to decrease quantity by 1.
      */
-    public void decrement(View view) {
+    private void decrement() {
         String quantityString = mQuantityEditText.getText().toString().trim();
+        // If the quantity already has a value, then decrease it by 1, only if the value is
+        // greater or equal to 1. If the value is smaller than 1, show a toast to let the
+        // user know that the quantity cannot be a negative number.
+        // Otherwise, if no value was entered, set it to have an initial value of 0.
         if ((!TextUtils.isEmpty(quantityString))) {
             quantity = Integer.valueOf(quantityString);
             if (quantity < 1) {
@@ -308,6 +335,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return true;
     }
 
+    /**
+     * This method initializes the contents of the EditorActivity's options menu.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
@@ -316,13 +346,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return true;
     }
 
+    /**
+     * This method is called whenever an item from the options menu is selected.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                // Save the book into the database
+                // Save the book into the database.
+                // Exit the activity only if the book was saved
                 if (saveBook()) {
                     // Exit activity
                     finish();
@@ -373,7 +407,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         // Otherwise if there are unsaved changes, setup a dialog to warn the user.
-        // Create a click listener to handle the user confirming that changes should be discarded.
+        // Create a click listener to handle the user confirming that changes should be discarded,
+        // saved or the option to keep editing.
         DialogInterface.OnClickListener discardButtonClickListener =
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -387,6 +422,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
+    /**
+     * Instantiate and return a new Loader for the given ID.
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Define a projection that contains all columns from the books table
@@ -408,6 +446,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 null);                     // Default sort order
     }
 
+    /**
+     * This method is called when the previously created loader has finished its load.
+     *
+     * @param loader The loader created in onCreateLoader
+     * @param cursor The cursor from which to get the data.
+     */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         // Return early if the cursor is null or there is less than 1 row in the cursor
@@ -434,13 +478,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
-            mPriceEditText.setText(Integer.toString(price));
-            mQuantityEditText.setText(Integer.toString(quantity));
+            mPriceEditText.setText(String.format(Locale.ENGLISH, "%d", price));
+            mQuantityEditText.setText(String.format(Locale.ENGLISH, "%d", quantity));
             mSupplierNameEditText.setText(supplierName);
             mSupplierPhoneEditText.setText(supplierPhoneNumber);
         }
     }
 
+    /**
+     * This method is called when the previously created loader is being reset.
+     * The application should at this point remove any references it has to the Loader's data.
+     *
+     * @param loader The loader created in onCreateLoader
+     */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // If the loader is invalidated, clear out all the data from the input fields.
@@ -460,8 +510,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     private void showUnsavedChangesDialog(
             DialogInterface.OnClickListener discardButtonClickListener) {
-        // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the positive and negative buttons on the dialog.
+        // Create an AlertDialog.Builder, set the message, and set click
+        // listeners for the positive (discard), negative (save) and neutral (keep editing)
+        // buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
@@ -477,10 +528,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         });
         builder.setNegativeButton("Save", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Save button, so save the book
+                // User clicked the "Save" button, so save the book
                 saveBook();
                 if (saveBook()) {
-                    // Exit activity
+                    // Exit activity only if the book was saved
                     finish();
                 }
             }
@@ -553,10 +604,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private void order() {
         String phoneNumber = mSupplierPhoneEditText.getText().toString().trim();
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+        // Start the intent only if there is an activity that can handle the intent AND there
+        // is a number stored in the edit text
         if (intent.resolveActivity(getPackageManager()) != null && !phoneNumber.isEmpty()) {
             startActivity(intent);
+            // if no number is stored in the edit text, show a toast to inform the user to add a
+            // phone number before making a call
         } else if (phoneNumber.isEmpty()) {
-            Toast.makeText(this, getString(R.string.toast_message_order_button_phone_empty), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.toast_message_order_button_phone_empty),
+                    Toast.LENGTH_LONG).show();
         }
     }
 }

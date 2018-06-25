@@ -92,7 +92,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      * Helper method to insert hardcoded book data into the database. For debugging purposes only.
      */
     private void insertBook() {
-
         // Create a ContentValues object where column names are the keys,
         // and BookX's attributes are the values.
         ContentValues values = new ContentValues();
@@ -110,7 +109,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     }
 
     /**
-     * Helper method to delete all book in the database.
+     * Helper method to delete all books in the database.
      */
     private void deleteAllBooks() {
         int rowsDeleted = getContentResolver().delete(BookContract.BookEntry.CONTENT_URI, null, null);

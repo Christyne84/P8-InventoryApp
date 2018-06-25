@@ -9,7 +9,7 @@ import static com.example.android.bookstoreapp.data.BookContract.BookEntry;
 /**
  * Database helper for Books app. Manages database creation and version management.
  */
-public class BookDbHelper extends SQLiteOpenHelper {
+class BookDbHelper extends SQLiteOpenHelper {
     /**
      * Database version. If you change the database schema, you must increment the database version.
      */

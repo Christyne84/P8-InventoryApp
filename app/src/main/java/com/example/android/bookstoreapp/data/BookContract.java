@@ -17,17 +17,17 @@ public final class BookContract {
      */
     public static final String CONTENT_AUTHORITY = "com.example.android.books";
     /**
-     * Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
-     * the content provider.
-     */
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    /**
      * Possible path (appended to base content URI for possible URI's)
      * For instance, content://com.example.android.books/books/ is a valid path for
      * looking at books data. content://com.example.android.pets/info/ will fail,
      * as the ContentProvider hasn't been given any information on what to do with "info".
      */
     public static final String PATH_BOOKS = "books";
+    /**
+     * Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
+     * the content provider.
+     */
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     private BookContract() {
     }

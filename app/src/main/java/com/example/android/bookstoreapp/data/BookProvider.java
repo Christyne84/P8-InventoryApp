@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
- * {@link ContentProvider} for Books app.
+ * {@link ContentProvider} for Books Inventory app.
  */
 public class BookProvider extends ContentProvider {
 
@@ -116,7 +116,8 @@ public class BookProvider extends ContentProvider {
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
-        // Set notification URI on the Cursor, so we know what content URI the Cursor was created for.
+        // Set notification URI on the Cursor only if context is not null,
+        // so we know what content URI the Cursor was created for.
         // If the data at this URI changes, then we know we need to update the Cursor.
         if (getContext() != null) {
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -169,11 +170,11 @@ public class BookProvider extends ContentProvider {
             throw new IllegalArgumentException("Book requires a Supplier Name");
         }
 
-/*        // Check that the Supplier's Phone Number for the book is null or empty
+        // Check that the Supplier's Phone Number for the book is null or empty
         String supplierPhone = values.getAsString(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
         if (supplierPhone == null || supplierPhone.isEmpty()) {
             throw new IllegalArgumentException("Book requires a Supplier Phone Number");
-        }*/
+        }
 
         // Get writable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -187,7 +188,8 @@ public class BookProvider extends ContentProvider {
             return null;
         }
 
-        // Notify all the listeners that the data has changed for the book content URI
+        // Notify all the listeners that the data has changed for the book content URI,
+        // only if context is not null
         if (getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
@@ -225,7 +227,6 @@ public class BookProvider extends ContentProvider {
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         // Check that the name of the book is not null
-
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
@@ -234,7 +235,6 @@ public class BookProvider extends ContentProvider {
         }
 
         // Check that the price of the book is not null and positive number
-
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRICE)) {
             Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_PRICE);
             if (price != null && price < 0) {
@@ -243,10 +243,10 @@ public class BookProvider extends ContentProvider {
         }
 
         // Check that the quantity of the book is not null and positive number
-            Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_QUANTITY);
-            if (quantity != null && quantity < 0) {
-                throw new IllegalArgumentException("Book requires a valid quantity");
-            }
+        Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Book requires a valid quantity");
+        }
 
         // Check that the Supplier's Name for the book is not null
         if (values.containsKey(BookContract.BookEntry.COLUMN_SUPPLIER_NAME)) {
@@ -256,7 +256,13 @@ public class BookProvider extends ContentProvider {
             }
         }
 
-        // No need to check the Supplier's Phone Number, any value is valid (including null).
+        // Check that the Supplier's Phone Number for the book is null or empty
+        if (values.containsKey(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER)) {
+            String supplierPhone = values.getAsString(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+            if (supplierPhone == null || supplierPhone.isEmpty()) {
+                throw new IllegalArgumentException("Book requires a Supplier Phone Number");
+            }
+        }
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
@@ -307,7 +313,7 @@ public class BookProvider extends ContentProvider {
         }
         // If 1 or more rows were deleted, then notify all listeners that the data at the
         // given URI has changed
-        if (rowsDeleted != 0  && getContext() != null) {
+        if (rowsDeleted != 0 && getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 

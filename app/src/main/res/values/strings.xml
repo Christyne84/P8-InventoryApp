@@ -38,7 +38,7 @@
     <string name="hint_book_name">Product Name*</string>
 
     <!-- Text hint for book price field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_book_price">Price*</string>
+    <string name="hint_book_price">Price (euro)*</string>
 
     <!-- Text hint for book quantity in the editor [CHAR LIMIT=30] -->
     <string name="hint_book_quantity">Quantity*</string>
@@ -64,11 +64,23 @@
     <!-- Text for Dummy Data "Supplier phone" field in the editor [CHAR LIMIT=30] -->
     <string name="dummy_supplier_phone_number">+491005222</string>
 
-   <!-- Title text for the empty view, which describes the empty book image [CHAR LIMIT=50] -->
+    <!-- Title text for the empty view, which describes the empty book image [CHAR LIMIT=50] -->
     <string name="empty_view_title_text">There are no articles in the inventory…</string>
 
     <!-- Subtitle text for the empty view that prompts the user to add a book [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Get started by adding a book</string>
+
+    <!-- List item caption text label for line 1 [CHAR LIMIT=50] -->
+    <string name="list_item_caption_line_1_label">Price:&#160;</string>
+
+    <!-- List item caption text label for the second line [CHAR LIMIT=50] -->
+    <string name="list_item_caption_line_2_label">Quantity:&#160;</string>
+
+    <!-- List item caption text label for button -->
+    <string name="list_item_button_label">Sale</string>
+
+    <!-- Editor activity button label -->
+    <string name="editor_activity_button_label">Order</string>
 
     <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
@@ -91,7 +103,11 @@
     <!-- Toast message in editor when book has been saved successfully [CHAR LIMIT=NONE] -->
     <string name="editor_insert_book_successful">Book saved</string>
 
-   <!-- Dialog message to ask the user to confirm deleting the current book [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when book has no supplier phone number and the button ORDER
+      is clicked [CHAR LIMIT=NONE] -->
+    <string name="toast_message_order_button_phone_empty">Please enter a phone number to make a call</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current book [CHAR LIMIT=NONE] -->
     <string name="delete_dialog_msg">Delete this book?</string>
 
     <!-- Dialog button text for the option to confirm deleting the current book [CHAR LIMIT=20] -->
@@ -102,5 +118,7 @@
 
     <!-- Content description for the empty view image [CHAR LIMIT=30] -->
     <string name="empty_view_image_content_description">Empty view image</string>
-    <string name="toast_message_order_button_phone_empty">Please enter a phone number first</string>
+
+    <!-- Editor activity caption for required fields [CHAR LIMIT=50] -->
+    <string name="caption_edit_text_field">* Required</string>
 </resources>
