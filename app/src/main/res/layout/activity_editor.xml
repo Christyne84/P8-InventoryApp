@@ -29,9 +29,7 @@
 
             <!-- Name field -->
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                style="@style/TextInputLayoutStyle" >
 
                 <EditText
                     android:id="@+id/edit_book_name"
@@ -42,20 +40,11 @@
 
             <TextView
                 android:id="@+id/required_label_for_name_field"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingEnd="@dimen/activity_margin"
-                android:paddingLeft="@dimen/text_field_label_padding"
-                android:paddingRight="@dimen/activity_margin"
-                android:paddingStart="@dimen/text_field_label_padding"
-                android:text="@string/caption_edit_text_field"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                style="@style/TextInputLayoutCaptionStyle" />
 
             <!-- Price field -->
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                style="@style/TextInputLayoutStyle" >
 
                 <EditText
                     android:id="@+id/edit_book_price"
@@ -66,14 +55,7 @@
 
             <TextView
                 android:id="@+id/required_label_for_price_field"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingEnd="@dimen/activity_margin"
-                android:paddingLeft="@dimen/text_field_label_padding"
-                android:paddingRight="@dimen/activity_margin"
-                android:paddingStart="@dimen/text_field_label_padding"
-                android:text="@string/caption_edit_text_field"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                style="@style/TextInputLayoutCaptionStyle" />
             <!-- Quantity field -->
 
             <LinearLayout
@@ -84,7 +66,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="@dimen/margin_top">
 
                     <EditText
                         android:id="@+id/edit_book_quantity"
@@ -100,31 +82,20 @@
 
                 <Button
                     android:id="@+id/editor_activity_minus_button"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
+                    style="@style/QuantityButtonsStyle"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    android:layout_marginTop="20dp"
                     android:background="@drawable/button_minus" />
 
                 <Button
                     android:id="@+id/editor_activity_plus_button"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="20dp"
+                    style="@style/QuantityButtonsStyle"
                     android:background="@drawable/button_plus" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/required_label_for_quantity_field"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingEnd="@dimen/activity_margin"
-                android:paddingLeft="@dimen/text_field_label_padding"
-                android:paddingRight="@dimen/activity_margin"
-                android:paddingStart="@dimen/text_field_label_padding"
-                android:text="@string/caption_edit_text_field"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                style="@style/TextInputLayoutCaptionStyle" />
         </LinearLayout>
 
         <!-- Supplier category -->
@@ -143,9 +114,7 @@
 
             <!-- Supplier's name field -->
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                style="@style/TextInputLayoutStyle" >
 
                 <EditText
                     android:id="@+id/edit_book_supplier_name"
@@ -156,14 +125,7 @@
 
             <TextView
                 android:id="@+id/required_label_for_supplier_name_field"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingEnd="@dimen/activity_margin"
-                android:paddingLeft="@dimen/text_field_label_padding"
-                android:paddingRight="@dimen/activity_margin"
-                android:paddingStart="@dimen/text_field_label_padding"
-                android:text="@string/caption_edit_text_field"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                style="@style/TextInputLayoutCaptionStyle" />
 
             <!-- Supplier's phone number field -->
             <RelativeLayout
@@ -179,7 +141,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/margin_top"
                     android:layout_toLeftOf="@id/order_button"
                     android:layout_toStartOf="@id/order_button">
 
@@ -206,14 +168,7 @@
 
             <TextView
                 android:id="@+id/required_label_for_supplier_phone_field"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingEnd="@dimen/activity_margin"
-                android:paddingLeft="@dimen/text_field_label_padding"
-                android:paddingRight="@dimen/activity_margin"
-                android:paddingStart="@dimen/text_field_label_padding"
-                android:text="@string/caption_edit_text_field"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                style="@style/TextInputLayoutCaptionStyle" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

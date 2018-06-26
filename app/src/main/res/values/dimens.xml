@@ -7,5 +7,17 @@
 
     <!-- Padding used for text field labels in EditorActivity -->
     <dimen name="text_field_label_padding">12dp</dimen>
+
+    <!-- Padding used for text field layout labels in EditorActivity -->
+    <dimen name="margin_top">20dp</dimen>
+
+    <!-- Button size used for modifying the quantity in EditorActivity -->
+    <dimen name="activity_editor_quantity_button_size">56dp</dimen>
+
+    <!-- Text size for the title in the list item -->
+    <dimen name="title_text_size">16sp</dimen>
+
+    <!-- Text size for the caption in the list item -->
+    <dimen name="caption_text_size">14sp</dimen>
 </resources>
 

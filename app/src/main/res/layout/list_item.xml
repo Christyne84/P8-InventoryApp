@@ -20,51 +20,37 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_book_name"
             android:textColor="@color/editorColorPrimary"
-            android:textSize="16sp" />
+            android:textSize="@dimen/title_text_size" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/ListItemLinearLayoutStyle" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/list_item_caption_line_1_label"
-                android:textSize="14sp" />
+                style="@style/ListItemTextCaptionStyle"
+                android:text="@string/list_item_caption_line_1_label" />
 
             <TextView
                 android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_book_price"
-                android:textSize="14sp" />
+                style="@style/ListItemTextCaptionStyle"
+                android:hint="@string/hint_book_price" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/ListItemLinearLayoutStyle" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/list_item_caption_line_2_label"
-                android:textSize="14sp" />
+                style="@style/ListItemTextCaptionStyle"
+                android:text="@string/list_item_caption_line_2_label" />
 
             <TextView
                 android:id="@+id/quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:hint="@string/hint_book_quantity"
-                android:textSize="14sp" />
+                style="@style/ListItemTextCaptionStyle"
+                android:hint="@string/hint_book_quantity" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ListItemLinearLayoutStyle"
         android:layout_gravity="center_vertical">
 
         <Button

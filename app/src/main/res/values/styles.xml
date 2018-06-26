@@ -19,8 +19,8 @@
     <style name="CategoryStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingTop">@dimen/activity_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_margin</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
     </style>
@@ -33,5 +33,49 @@
         <item name="android:ems">10</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <!-- Style for empty view in main activity (CatalogActivity) -->
+    <style name="EmptyViewStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <!-- Style for TextInputLayout in the editor activity -->
+    <style name="TextInputLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_top</item>
+    </style>
+
+    <!-- Style for TextInputLayout Caption in the editor activity -->
+    <style name="TextInputLayoutCaptionStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">@dimen/text_field_label_padding</item>
+        <item name="android:paddingRight">@dimen/activity_margin</item>
+        <item name="android:text">@string/caption_edit_text_field</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
+    </style>
+
+    <!-- Style for the + and - quantity buttons in the editor activity -->
+    <style name="QuantityButtonsStyle">
+        <item name="android:layout_width">@dimen/activity_editor_quantity_button_size</item>
+        <item name="android:layout_height">@dimen/activity_editor_quantity_button_size</item>
+        <item name="android:layout_marginTop">@dimen/margin_top</item>
+    </style>
+
+    <!-- Style for list item Caption and Button Layout -->
+    <style name="ListItemLinearLayoutStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="ListItemTextCaptionStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/caption_text_size</item>
     </style>
 </resources>
